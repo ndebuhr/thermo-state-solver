@@ -1,4 +1,7 @@
-## Neal DeBuhr for Thermodynamics II ##
+
+# Python functions for solving Themodynamics problems
+# Developed by Neal DeBuhr
+# Intended application is university introductory thermodynamics courses
 
 from iapws import IAPWS95 as w5
 from iapws import IAPWS97 as w7
@@ -14,18 +17,6 @@ import sys
 
 def secInYear():
 	return 365*24*60*60
-
-def nealHeaders(list1):
-	printString=''
-	for item in list1:
-		printString=printString + str(item).ljust(30)
-	print printString
-
-def watchDebug(list1,watches):
-	printString=''
-	for watch in watches:
-		printString=printString + str(list1[watch]).ljust(30)
-	print printString
 
 def nealSolve(eq,initials,watchvars):
 	global watches
@@ -64,9 +55,6 @@ def guessWater(list1):
 		if item=='MDOT':
 			out.append(random.uniform(1,100))
 	return out
-
-def inv(num):
-	return float(num**(-1))
 
 def int2phase(int1):
 	ind=phaseDict().index(int1)
@@ -110,23 +98,6 @@ def KtoC(kelvin):
 def FtoR(far):
 	return far+459.67
 
-def Pa2MPa(pressure):
-	return pressure/1000000
-
-def MPa2Pa(pressure):
-	return pressure*1000000
-
-def Pa2kPa(pressure):
-	return pressure/1000
-
-def Pa2MPa(pressure):
-	return pressure*1000
-
-def ansdisp(probnum,ans,units=' '):
-	print str(probnum)
-	print str(ans) + ' ' + str(units)
-	print '\n'
-
 def makeCool(param1,val1,param2,val2,state):
 	return [param1,val1,param2,val2,'state',state]
 
@@ -134,8 +105,6 @@ def getCool(param,pdict):
 	if param=="Phase":
 		return int2phase(cp.PropsSI(param,pdict[0],pdict[1],pdict[2],pdict[3],pdict[5]))
 	return cp.PropsSI(param,pdict[0],pdict[1],pdict[2],pdict[3],pdict[5])
-	# AbstractState state = AbstractState.factory("TTSE&HEOS", "R134a");
-	# state.update(input_pairs.DmassP_INPUTS, 5.0, 150000);
 
 def makeIdeal(P=None,V=None,n=None,T=None,R=None):
 	if R==None:
