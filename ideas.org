@@ -1,0 +1,2 @@
+* Use a brute force approach to generating solution
+** Stop solution and prompt user at each significant figures level (1, then 2, then 3,...) to enable user-specified precision
