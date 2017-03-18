@@ -24,18 +24,28 @@ with open(args.input, 'rt') as csvfile:
 lenPts=len(nestedPts[0].split(','))-1
 print("Number of points: %s" % lenPts)
 
-outRows=[['','Node']+paramsTherm+['']+paramsTherm+['Node']]
+outRows=[['','(Node)']+paramsTherm+['']+paramsTherm+['(Node)','','Q','W']]
 for rowInd in range(0,lenPts):
     outRow=['Eqn ' + str(rowInd+1)]
     for paramInd in range(0,len(paramsTherm)+1):
         outRow.append('')
-    outRow.append('=')
+    outRow.append('-')
     for paramInd in range(0,len(paramsTherm)+1):
         outRow.append('')
+    outRow.append('=')
     outRows.append(outRow)
+outRows.append([''])
+outRow=['']
+for eqnInd in range(0,lenPts):
+    outRow.append('E'+str(eqnInd+1))
+outRows.append(outRow)
+outRow=['Balance']
+outRows.append(outRow)
 
 with open(args.output, 'wt') as csvfile:
     fileEqns = csv.writer(csvfile, delimiter=',',
                             quotechar="'", quoting=csv.QUOTE_MINIMAL)
     for row in outRows:
         fileEqns.writerow(row)
+
+print("Output file: %s" % args.output)
