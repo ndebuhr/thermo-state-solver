@@ -1,7 +1,6 @@
-
-# Python functions for solving Themodynamics problems
+# Thermo State Solver
+# Solves for state parameters at various points in a simple thermodynamic model 
 # Developed by Neal DeBuhr
-# Intended application is university introductory thermodynamics courses
 
 from iapws import IAPWS95 as w5
 from iapws import IAPWS97 as w7
