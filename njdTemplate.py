@@ -13,10 +13,22 @@ import math
 import random
 import sys
 
-## Some Helper Functions ##
+## Variable Declarations ##
 
-def secInYear():
-	return 365*24*60*60
+minH=5e3
+maxH=5410e3
+minT=274 #kelvin
+maxT=1000 #kelvin
+minP=10e3 #Pa
+maxP=100e6 #Pa
+minS=0.0001
+maxS=156
+minW=1e6
+maxW=1e9
+minMDOT=1
+maxMDOT=100
+
+## Some Helper Functions ##
 
 def nealSolve(eq,initials,watchvars):
 	global watches
@@ -27,9 +39,6 @@ def nealSolve(eq,initials,watchvars):
 	for x in range(0,10):
 		try:
 			sol.append(sco.fsolve(eq,guessWater(initials)))
-			print 'Solution Found!'
-		except ValueError:
-			print '----Value Error----'
 		except:
 		    print "Unexpected error:", sys.exc_info()[0]
 		    raise
@@ -41,19 +50,19 @@ def guessWater(list1):
 	out=[]
 	for item in list1:
 		if item=='H':
-			out.append(random.uniform(5e3,5410e3))
+			out.append(random.uniform(minH,maxH))
 		if item=='T':
-			out.append(random.uniform(274,1000))
+			out.append(random.uniform(minT,maxT))
 		if item=='P':
-			out.append(random.uniform(10e3,100e6))
+			out.append(random.uniform(minP,maxP))
 		if item=='S':
-			out.append(random.uniform(0.0001,156))
+			out.append(random.uniform(minS,maxS))
 		if item=='WORK':
-			out.append(random.uniform(1e6,1e9))
+			out.append(random.uniform(minW,maxW))
 		if item=='BAL':
 			out.append(0)
 		if item=='MDOT':
-			out.append(random.uniform(1,100))
+			out.append(random.uniform(minMDOT,maxMDOT))
 	return out
 
 def int2phase(int1):
@@ -80,24 +89,6 @@ def phaseDict():
 	res.append('phase_supercritical_gas')
 	return res
 
-def gal2in3(gal):
-	return gal*231
-
-def in32gal(in3):
-	return in3/231
-
-def psi2Pa(psi):
-	return psi*6894.75728
-
-def CtoK(celsius):
-	return celsius+273
-
-def KtoC(kelvin):
-	return kelvin-273
-
-def FtoR(far):
-	return far+459.67
-
 def makeCool(param1,val1,param2,val2,state):
 	return [param1,val1,param2,val2,'state',state]
 
@@ -122,6 +113,3 @@ def makeIdeal(P=None,V=None,n=None,T=None,R=None):
 def getIdeal(param,pdict):
 	spot=pdict.index(param)
 	return spot+1
-
-
-
