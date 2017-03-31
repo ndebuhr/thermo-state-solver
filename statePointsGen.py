@@ -5,21 +5,31 @@
 import csv
 import argparse
 import itertools
-import string
+import math
 
-numPoints=int(input('Number of points in analysis:'))
-num2alpha = dict(zip(range(1, 27), string.ascii_uppercase))
-outRow=['']
-outRows=[]
-paramsPoints=['mdot','h','T','P','s']
+def letterIncrementer(size):
+    result=[]
+    letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    letList=list(letters)
+    for point in range(0,size):
+        if point/26>=1:
+            let1=math.floor(point/26)-1
+            let2=point%26
+            result.append(letList[let1]+letList[let2])
+        else:
+            result.append(letList[point])
+    return result
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-o','--output',required=True)
 args = parser.parse_args()
 
-for point in range(1,numPoints+1):
-    outRow.append(num2alpha[point])
-outRows.append(outRow)
+paramsPoints=['mdot','h','T','P','s']
+outRows=[]
+
+numPoints=int(input('Number of points in analysis:'))
+
+outRows.append(['']+letterIncrementer(numPoints))
 for param in paramsPoints:
     outRows.append([param])
 
