@@ -6,6 +6,21 @@ import csv
 import argparse
 import itertools
 
+def csvRowWriter(outFile,inList):
+    with open(args.output, 'wt') as csvfile:
+        writeCsv = csv.writer(csvfile, delimiter=',',
+                              quotechar="'", quoting=csv.QUOTE_MINIMAL)
+        for row in inList:
+            writeCsv.writerow(row)
+
+def readCsvRows(inFile):
+    result=[]
+    with open(inFile, 'rt') as csvfile:
+        rows = csv.reader(csvfile, delimiter=',', quotechar="'")
+        for row in rows:
+            result.append(','.join(row))
+    return result
+
 paramsTherm=['h','T','P','s']
 
 parser = argparse.ArgumentParser()
@@ -15,11 +30,7 @@ args = parser.parse_args()
 
 print("Input file: %s" % args.input)
 
-nestedPts=[]
-with open(args.input, 'rt') as csvfile:
-    filePts = csv.reader(csvfile, delimiter=',', quotechar="'")
-    for row in filePts:
-        nestedPts.append(','.join(row))
+nestedPts=readCsvRows(args.input)
 
 lenPts=len(nestedPts[0].split(','))-1
 print("Number of points: %s" % lenPts)
@@ -42,10 +53,6 @@ outRows.append(outRow)
 outRow=['Balance']
 outRows.append(outRow)
 
-with open(args.output, 'wt') as csvfile:
-    fileEqns = csv.writer(csvfile, delimiter=',',
-                            quotechar="'", quoting=csv.QUOTE_MINIMAL)
-    for row in outRows:
-        fileEqns.writerow(row)
+csvRowWriter(args.output,outRows)
 
 print("Output file: %s" % args.output)

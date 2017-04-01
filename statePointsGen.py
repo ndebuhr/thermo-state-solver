@@ -7,6 +7,13 @@ import argparse
 import itertools
 import math
 
+def csvRowWriter(outFile,inList):
+    with open(args.output, 'wt') as csvfile:
+        writeCsv = csv.writer(csvfile, delimiter=',',
+                              quotechar="'", quoting=csv.QUOTE_MINIMAL)
+        for row in inList:
+            writeCsv.writerow(row)
+
 def letterIncrementer(size):
     result=[]
     letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -33,10 +40,6 @@ outRows.append(['']+letterIncrementer(numPoints))
 for param in paramsPoints:
     outRows.append([param])
 
-with open(args.output, 'wt') as csvfile:
-    fileEqns = csv.writer(csvfile, delimiter=',',
-                            quotechar="'", quoting=csv.QUOTE_MINIMAL)
-    for row in outRows:
-        fileEqns.writerow(row)
+csvRowWriter(args.output,outRows)
 
 print("Output file: %s" % args.output)
