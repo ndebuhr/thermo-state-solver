@@ -3,28 +3,7 @@ import argparse
 import itertools
 import math
 
-# Write out csv file, from list input
-def csv_row_writer(outFile,inList):
-    with open(args.output, 'wt') as csvfile:
-        writeCsv = csv.writer(csvfile, delimiter=',',
-                              quotechar="'", quoting=csv.QUOTE_MINIMAL)
-        for row in inList:
-            writeCsv.writerow(row)
-
-# Generate list of letters (point labels)
-# Starts at "A" and increments to a maximum of "ZZ"
-def letter_incrementer(size):
-    result = []
-    letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    letList = list(letters)
-    for point in range(0,size):
-        if point/26 >= 1:
-            let1 = math.floor(point/26)-1
-            let2 = point%26
-            result.append(letList[let1]+letList[let2])
-        else:
-            result.append(letList[point])
-    return result
+from thermo_utils import csv_row_writer, letter_incrementer
 
 # Read input/output arguments
 parser = argparse.ArgumentParser()

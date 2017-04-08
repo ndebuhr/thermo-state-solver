@@ -2,22 +2,7 @@ import csv
 import argparse
 import itertools
 
-# Write out csv file, from list input
-def csv_row_writer(outFile,inList):
-    with open(args.output, 'wt') as csvfile:
-        writeCsv = csv.writer(csvfile, delimiter=',',
-                              quotechar="'", quoting=csv.QUOTE_MINIMAL)
-        for row in inList:
-            writeCsv.writerow(row)
-
-# Read in csv as list
-def read_csv_rows(inFile):
-    result = []
-    with open(inFile, 'rt') as csvfile:
-        rows = csv.reader(csvfile, delimiter=',', quotechar="'")
-        for row in rows:
-            result.append(','.join(row))
-    return result
+from thermo_utils import csv_row_writer, read_csv_rows
 
 # Define list of intrinsic thermodynamic properties
 paramsTherm = ['h','T','P','s']
