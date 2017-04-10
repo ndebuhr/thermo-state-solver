@@ -8,14 +8,12 @@ from thermo_utils import csv_row_writer, letter_incrementer
 # Read input/output arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('-o','--output',required=True)
+parser.add_argument('-p','--points',required=True)
 args = parser.parse_args()
+numPoints=int(args.points)
 
 # Define mdot and intrinsic thermodynamic properties
 paramsPoints = ['mdot','h','T','P','s']
-
-# Read in user specified number of points
-numPoints = int(input('Number of points in analysis:'))
-# TODO make number of points into execution argument
 
 # Generate list/table with point labels as the column headers and intrinsic
 # thermodyanmic properties (and mass flow) as the row headers 
