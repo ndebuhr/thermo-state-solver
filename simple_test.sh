@@ -3,6 +3,7 @@
 . thermo-env/bin/activate
 
 # TODO extend beyond 9 points, improve functionality, improve test case variability, clean up messy code
+# Single digit number of points test
 for i in $(seq 1 1 9)
 do
     echo "state_points_gen.py"
@@ -60,4 +61,18 @@ do
     
 done
 
+rm testFiles/testEqns.csv
+rm testFiles/testPoints.csv
+
+
+# File naming test
+# TODO finish this test
+dictWc=$(wc /usr/share/dict/words)
+echo $dictWc
+dictLines=$(echo $dictWc | sed 's/\(^[0-9]*\).*/\1/g' )
+randLine=$(( ( RANDOM % $dictLines ) + 1 ))
+echo $randLine
+
+
 deactivate
+
