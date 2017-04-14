@@ -4,6 +4,7 @@
 
 # TODO extend beyond 9 points, improve functionality, improve test case variability, clean up messy code
 # Single digit number of points test
+echo "----------Number of Points Test----------"
 for i in $(seq 1 1 9)
 do
     echo "state_points_gen.py"
@@ -67,12 +68,20 @@ rm testFiles/testPoints.csv
 
 # File naming test
 # TODO finish this test
+echo "----------File Naming Test----------"
 dictWc=$(wc /usr/share/dict/words)
-echo $dictWc
 dictLines=$(echo $dictWc | sed 's/\(^[0-9]*\).*/\1/g' )
-randLine=$(( ( RANDOM % $dictLines ) + 1 ))
-echo $randLine
-
+randLineOne=$(( ( RANDOM * RANDOM % $dictLines ) + 1 )) # Very non-uniform/biased, but that's okay for now
+randLineTwo=$(( ( RANDOM * RANDOM % $dictLines ) + 1 )) # Very non-uniform/biased, but that's okay for now
+fileNameOne=$(head -n $randLineOne /usr/share/dict/words | tail -n 1)
+fileNameTwo=$(head -n $randLineTwo /usr/share/dict/words | tail -n 1)
+echo "state_points_gen.py"
+python state_points_gen.py -o "testFiles/$fileNameOne.csv" -p 15
+echo "state_eqns_gen.py"
+python state_eqns_gen.py -i "testFiles/$fileNameOne.csv" -o "testFiles/$fileNameTwo.csv"
+echo ""
+rm "testFiles/$fileNameOne.csv"
+rm "testFiles/$fileNameTwo.csv"
 
 deactivate
 
