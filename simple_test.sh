@@ -67,21 +67,44 @@ rm testFiles/testPoints.csv
 
 
 # File naming test
-# TODO finish this test
-echo "----------File Naming Test----------"
-dictWc=$(wc /usr/share/dict/words)
-dictLines=$(echo $dictWc | sed 's/\(^[0-9]*\).*/\1/g' )
-randLineOne=$(( ( RANDOM * RANDOM % $dictLines ) + 1 )) # Very non-uniform/biased, but that's okay for now
-randLineTwo=$(( ( RANDOM * RANDOM % $dictLines ) + 1 )) # Very non-uniform/biased, but that's okay for now
-fileNameOne=$(head -n $randLineOne /usr/share/dict/words | tail -n 1)
-fileNameTwo=$(head -n $randLineTwo /usr/share/dict/words | tail -n 1)
-echo "state_points_gen.py"
-python state_points_gen.py -o "testFiles/$fileNameOne.csv" -p 15
-echo "state_eqns_gen.py"
-python state_eqns_gen.py -i "testFiles/$fileNameOne.csv" -o "testFiles/$fileNameTwo.csv"
-echo ""
-rm "testFiles/$fileNameOne.csv"
-rm "testFiles/$fileNameTwo.csv"
+randLen=0
+while [ $randLen -ne 5 ] # runs test a random number of times. 1/10 chance for test to end each iteration
+do
+    randLen=$(( ( RANDOM % 10 ) + 1 )) # non-uniform, but okay
+    echo "----------File Naming Test----------"
+    dictWc=$(wc /usr/share/dict/words)
+    dictLines=$(echo $dictWc | sed 's/\(^[0-9]*\).*/\1/g' )
+    randLineOne=$(( ( RANDOM * RANDOM % $dictLines ) + 1 )) # Very non-uniform/biased, but that's okay for now
+    randLineTwo=$(( ( RANDOM * RANDOM % $dictLines ) + 1 )) # Very non-uniform/biased, but that's okay for now
+    fileNameOne=$(head -n $randLineOne /usr/share/dict/words | tail -n 1)
+    fileNameTwo=$(head -n $randLineTwo /usr/share/dict/words | tail -n 1)
+    echo "state_points_gen.py"
+    python state_points_gen.py -o "testFiles/$fileNameOne.csv" -p 15
+    echo "state_eqns_gen.py"
+    python state_eqns_gen.py -i "testFiles/$fileNameOne.csv" -o "testFiles/$fileNameTwo.csv"
+    echo ""
+    if test -e "testFiles/$fileNameOne.csv";
+    then
+	rm "testFiles/$fileNameOne.csv"
+    else
+	echo "File naming test failed. $fileNameOne.csv does not exit."
+	exit 0
+    fi
+    if test -e "testFiles/$fileNameTwo.csv";
+    then
+	rm "testFiles/$fileNameTwo.csv"
+    else
+	echo "File naming test failed. $fileNameTwo.csv does not exit."
+	exit 0
+    fi
+done
+
+cntTestFiles=$(ls testFiles/ | wc)
+numTestFiles=$(echo $cntTestFiles | sed 's/[0-9]*\s*[0-9]*\s*$//g')
+if [ $numTestFiles -gt 2 ];
+then
+    echo "More than 2 files in test files directory"
+fi
 
 deactivate
 
