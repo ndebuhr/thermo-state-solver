@@ -40,31 +40,60 @@ do
     eqnsWords=$(echo $eqnsWc | sed 's/^\s*[0-9]*\s*//g' | sed 's/\s*[0-9]*\s*$//g' )
     eqnsBytes=$(echo $eqnsWc | sed 's/^\s*[0-9]*\s*[0-9]*\s*//g' )
     echo "$eqnsLines Lines, $eqnsWords Words, $eqnsBytes Bytes"
-    eqnsLinesExpect=4+$i
+    eqnsLinesExpect=1+$i
     if (($eqnsLines != $eqnsLinesExpect))
     then
 	echo "Test case of equations csv generation, for $i points, resulted in $eqnsLines != $eqnsLinesExpect lines"
 	exit 0
     fi
-    eqnsWordsExpect=3+2*$i
+    eqnsWordsExpect=1+2*$i
     if (($eqnsWords != $eqnsWordsExpect))
     then
 	echo "Test case of equations csv generation, for $i points, resulted in $eqnsWords != $eqnsWordsExpect words"
 	exit 0
     fi
-    eqnsBytesExpect=51+24*$i
+    eqnsBytesExpect=38+21*$i
     if (($eqnsBytes != $eqnsBytesExpect))
     then
 	echo "Test case of equations csv generation, for $i points, resulted in $eqnsBytes != $eqnsBytesExpect bytes"
 	exit 0	
     fi
     echo ""
+
+    echo "balance_gen.py"
+    python balance_gen.py -i testFiles/testPoints.csv -o testFiles/testBal.csv
+    balWc=$(cat testFiles/testBal.csv | wc)
+    balLines=$(echo $balWc | sed 's/\s*[0-9]*\s*[0-9]*\s*$//g' )
+    balWords=$(echo $balWc | sed 's/^\s*[0-9]*\s*//g' | sed 's/\s*[0-9]*\s*$//g' )
+    balBytes=$(echo $balWc | sed 's/^\s*[0-9]*\s*[0-9]*\s*//g' )
+    echo "$balLines Lines, $balWords Words, $balBytes Bytes"
+    balLinesExpect=2
+    if (($balLines != $balLinesExpect))
+    then
+	echo "Test case of equations csv generation, for $i points, resulted in $balLines != $balLinesExpect lines"
+	exit 0
+    fi
+    balWordsExpect=2
+    if (($balWords != $balWordsExpect))
+    then
+	echo "Test case of equations csv generation, for $i points, resulted in $balWords != $balWordsExpect words"
+	exit 0
+    fi
+    balBytesExpect=11+3*$i
+    if (($balBytes != $balBytesExpect))
+    then
+	echo "Test case of equations csv generation, for $i points, resulted in $balBytes != $balBytesExpect bytes"
+	exit 0	
+    fi
+    echo ""
+    
+
     
 done
 
 rm testFiles/testEqns.csv
 rm testFiles/testPoints.csv
-
+rm testFiles/testBal.csv
 
 # File naming test
 randLen=0
@@ -101,9 +130,9 @@ done
 
 cntTestFiles=$(ls testFiles/ | wc)
 numTestFiles=$(echo $cntTestFiles | sed 's/[0-9]*\s*[0-9]*\s*$//g')
-if [ $numTestFiles -gt 2 ];
+if [ $numTestFiles -gt 3 ];
 then
-    echo "More than 2 files in test files directory"
+    echo "More than 3 files in test files directory"
 fi
 
 deactivate
