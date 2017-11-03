@@ -1,33 +1,32 @@
-import csv
+"""Generates energy balance table template in csv format"""
 import argparse
-import itertools
 
 from thermo_utils import csv_row_writer, read_csv_rows
 
 # Read input/output arguments
-parser = argparse.ArgumentParser()
-parser.add_argument('-i','--input',required=True)
-parser.add_argument('-o','--output',required=True)
-parser.add_argument('-v','--version',required=False)
-args = parser.parse_args()
-print('Input file: %s' % args.input)
+PARSER = argparse.ArgumentParser()
+PARSER.add_argument('-i', '--input', required=True)
+PARSER.add_argument('-o', '--output', required=True)
+PARSER.add_argument('-v', '--version', required=False)
+ARGS = PARSER.parse_args()
+print('Input file: %s' % ARGS.input)
 
 # Read in data from points CSV file
-nestedPts = read_csv_rows(args.input)
+NESTED_PTS = read_csv_rows(ARGS.input)
 
 # Determine number of points in the points CSV file using first row length
-lenPts = len(nestedPts[0].split(','))-1
-print('Number of points: %s' % lenPts)
+LEN_PTS = len(NESTED_PTS[0].split(','))-1
+print('Number of points: %s' % LEN_PTS)
 
-outRows=[]
+OUT_ROWS = []
 # Generate table for full system energy balance
-outRow = ['']
-for eqnInd in range(0,lenPts):
-    outRow.append('E'+str(eqnInd+1))
-outRows.append(outRow) # Full system column headers
-outRow = ['Balance']
-outRows.append(outRow) # Full system row header
+OUT_ROW = ['']
+for eqnInd in range(0, LEN_PTS):
+    OUT_ROW.append('E'+str(eqnInd+1))
+OUT_ROWS.append(OUT_ROW) # Full system column headers
+OUT_ROW = ['Balance']
+OUT_ROWS.append(OUT_ROW) # Full system row header
 
 # Write all rows to equations CSV file
-csv_row_writer(args.output,outRows)
-print('Output file: %s' % args.output)
+csv_row_writer(ARGS.output, OUT_ROWS)
+print('Output file: %s' % ARGS.output)

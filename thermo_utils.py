@@ -1,7 +1,9 @@
+"""Some basic IO functions and point label assigment function"""
 import csv
+import math
 
 # Write out csv file, from list input
-def csv_row_writer(outFile,inList):
+def csv_row_writer(outFile, inList):
     with open(outFile, 'wt') as csvfile:
         writeCsv = csv.writer(csvfile, delimiter=',',
                               quotechar="'", quoting=csv.QUOTE_MINIMAL)
@@ -23,7 +25,7 @@ def letter_incrementer(size):
     result = []
     letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     letList = list(letters)
-    for point in range(0,size):
+    for point in range(0, size):
         if point/26 >= 1:
             let1 = math.floor(point/26)-1
             let2 = point%26
